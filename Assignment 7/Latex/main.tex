@@ -1,0 +1,345 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{main}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{main}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[linguistics]{forest}
+\usepackage{adjustbox}
+\usepackage{bbm}
+\usepackage{stmaryrd}
+%\usepackage[margin=0.5in]{geometry}
+%\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\ttfamily\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+ 
+\lstset{style=mystyle}
+
+\title{Fundamental Algorithms - Spring 2018\\
+       \Large Homework 7}
+%\graphicspath{{images/}}
+\setcitestyle{round, sort, numbers}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Daniel Rivera Ruiz\\
+  Department of Computer Science\\
+  New York University\\
+  \href{mailto:drr342@nyu.edu}{\texttt{drr342@nyu.edu}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+% \cite{} - in-line citation author, year in parenthesis.
+% \citep{} - all citation info in parenthesis.
+
+%	\begin{figure}[ht]
+%		\centering
+%		\frame{
+%            \includegraphics[width=1.0\linewidth]{tree.png}
+%       }
+%		\caption{Classification results for the sentence \textit{"There are slow and repetitive parts, but it has just enough spice to keep it                  interesting."} using the Stanford Sentiment Treebank. As can be seen, sentiment scores are available for each phrase.}
+%		\label{tree}
+%	\end{figure}
+
+\begin{enumerate}[1.]
+    
+    \item Given $X = 10010101$ and $Y = 010110110$ we use the definitions from class to build the matrices $c$ and $B$:
+    \[
+    c(i, j)= 
+    \begin{cases}
+        0                          &, \text{ if } i = 0 \text{ or } j = 0\\
+        c(i-1, j-1) + 1            &, \text{ if } x_i = y_j\\
+        \max[c(i-1, j), c(i, j-1)] &, \text{ otherwise}
+    \end{cases}
+    \]
+    \[
+    B(i, j)= 
+    \begin{cases}
+        Stop          &, \text{ if } i = 0 \text{ or } j = 0\\
+        \nwarrow   &, \text{ if } x_i = y_j\\
+        \leftarrow &, \text{ if } x_i \neq y_j \text{ and } c(i, j-1) \geq c(i-1, j)\\
+        \uparrow   &, \text{ otherwise}
+    \end{cases}
+    \]
+    
+    The matrix $c$ looks as follows:
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{c|cccccccccc}
+			\toprule
+			$i_{\downarrow} / j_{\rightarrow}$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+			\midrule
+			0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+			1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+			2 & 0 & 1 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\
+			3 & 0 & 1 & 1 & 2 & 2 & 2 & 3 & 3 & 3 & 3 \\
+			4 & 0 & 1 & 2 & 2 & 3 & 3 & 3 & 4 & 4 & 4 \\
+			5 & 0 & 1 & 2 & 3 & 3 & 3 & 4 & 4 & 4 & 5 \\
+			6 & 0 & 1 & 2 & 3 & 4 & 4 & 4 & 5 & 5 & 5 \\
+			7 & 0 & 1 & 2 & 3 & 4 & 4 & 5 & 5 & 5 & 6 \\
+			8 & 0 & 1 & 2 & 3 & 4 & 5 & 5 & 6 & 6 & 6 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+    
+    And the matrix $B$ as follows:
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{c|cccccccccc}
+			\toprule
+			$i_{\downarrow} / j_{\rightarrow}$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+			\midrule
+			0 & S & S & S & S & S & S & S & S & S & S \\
+			1 & S & $\leftarrow$ & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ \\
+			2 & S & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\leftarrow$ & $\leftarrow$ & $\nwarrow$ & $\leftarrow$ & $\leftarrow$ & $\nwarrow$ \\
+			3 & S & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\leftarrow$ & $\leftarrow$ & $\nwarrow$ & $\leftarrow$ & $\leftarrow$ & $\nwarrow$ \\
+			4 & S & $\uparrow$ & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ \\
+			5 & S & $\nwarrow$ & $\uparrow$ & $\nwarrow$ & $\leftarrow$ & $\leftarrow$ & $\nwarrow$ & $\leftarrow$ & $\leftarrow$ & $\nwarrow$ \\
+			6 & S & $\uparrow$ & $\nwarrow$ & $\uparrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ \\
+			7 & S & $\nwarrow$ & $\uparrow$ & $\nwarrow$ & $\uparrow$ & $\leftarrow$ & $\nwarrow$ & $\leftarrow$ & $\leftarrow$ & $\nwarrow$ \\
+			8 & S & $\uparrow$ & $\nwarrow$ & $\uparrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ & $\nwarrow$ & $\nwarrow$ & $\leftarrow$ \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+    
+   Using $B$ we start from the bottom right corner and follow a path that takes us to an $S$, looking for the diagonal arrows $\nwarrow$, which are associated to the values present in the LCS. For the current problem we get the following path, where the underlined positions correspond to a $\nwarrow$:
+    \begin{center}
+        \emph{Path = B(8, 9) - \underline{B(8, 8)} - B(7, 7) - \underline{B(7, 6)} - \underline{B(6, 5)} - B(5, 4) - \underline{B(5, 3)} - \underline{B(4, 2)} - \underline{B(3, 1)}}\\
+    \end{center}
+    \vspace{0.25cm}
+    Finally, printing the underlined values of the path in reverse order we get the LCS:
+    \begin{equation*}
+        \textit{LCS} = 010101
+    \end{equation*}
+    
+    \item The following table shows all the parenthesizations for $ABCDE$ according to the recursive formula for $P(n)$ with $n = 5$:
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{ccccc}
+			\toprule
+			$i$ & $P(i)$ & $P(n - i)$ & Total & Parenthesizations \\
+			\midrule
+			1 & 1 & 5 & 5 &  $A(B(C(DE)))$, $A(B((CD)E))$, $A((BC)(DE))$ \\
+			  &   &   &   &  $A(((BC)D)E)$, $A((B(CD))E)$\\
+			2 & 1 & 2 & 2 &  $(AB)(C(DE))$, $(AB)((CD)E)$\\
+			3 & 2 & 1 & 2 &  $(A(BC))(DE)$, $((AB)C)(DE)$\\
+			4 & 5 & 1 & 5 &  $(A(B(CD)))E$, $(A((BC)D))E$, $((AB)(CD))E$ \\
+			  &   &   &   &  $(((AB)C)D)E$, $((A(BC))D)E$\\
+			\midrule
+			& & & \textbf{14} & \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+
+\lstset{showlines=true}
+
+	\item 
+	\begin{enumerate}[(a)]
+	    \item The following algorithm will find all the values $INC[i]$ for $1 \leq i \leq n$ in $O(n^2)$ time:
+\begin{lstlisting}
+
+    INC[i] $\leftarrow$ 1
+    for i = 2 to n :
+        max $\leftarrow$ 0
+        for j = 1 to i :
+            if ($x_j$ < $x_i$ and INC[j] > max) :
+                max $\leftarrow$ INC[j]
+            end if
+        end for
+        INC[i] $\leftarrow$ max + 1
+    end for
+    
+\end{lstlisting}
+
+        \item The following algorithm will find $LIS$ and $DIS$ in $O(n)$ time, assuming that the values $INC[i]$ and $DEC[i]$ are given for all $1 \leq i \leq n$:
+\begin{lstlisting}
+
+    LIS $\leftarrow$ 1
+    DIS $\leftarrow$ 1
+    for i = 2 to n :
+        if (INC[i] > LIS) :
+            LIS $\leftarrow$ INC[i]
+        end if
+        if (DEC[i] > DIS) :
+            DIS $\leftarrow$ DEC[i]
+        end if
+    end for
+    
+\end{lstlisting}
+
+        \item Since all the $x_i$ are different, there are only two possibilities to consider:
+        \begin{itemize}
+            \item $x_i < x_j$. In this case we know that $INC[j]$ will at least be equals to $INC[i] + 1$ (in the extreme case where the longest increasing subsequence is formed by the LIS up to $x_i$ plus the $x_j$ element). Therefore, we will always have $INC[i] \neq INC[j]$. 
+            \item $x_i > x_j$. In this case we know that $DEC[j]$ will at least be equals to $DEC[i] + 1$ (in the extreme case where the longest decreasing subsequence is formed by the DIS up to $x_i$ plus the $x_j$ element). Therefore, we will always have $DEC[i] \neq DEC[j]$.
+        \end{itemize}
+        
+        \item Given the sequence of length $m = ab + 1$, we label each number $x_i$ in the sequence with the pair $(INC[i], DEC[i])$. According to the previous result from $3(c)$, each two numbers in the sequence are labeled with a different pair: if $i < j$ and $x_i \leq x_j$ then $INC[i] < INC[j]$, and on the other hand if $x_i \geq x_j$ then $DEC[i] < DEC[j]$. If we assume that all the $INC[i]$ values are at most $a$ and all the $DEC[i]$ values are at most $b$, then we only have $ab$ possible values to label the elements of the sequence. However, we know that the length $m$ of the sequence is $ab + 1$, so there must be an element $x_i$ for which $INC[i]$ is greater than $a$ or alternatively $DEC[i]$ is greater than $b$. In the first case the resulting $LIS$ will be of length at least $a + 1$, and in the second the $DIS$ will have length at least $b + 1$. ($Q.E.D.$)
+        
+	\end{enumerate}
+	
+	\item The following code written in \texttt{Java} and based on the algorithm proposed in the textbook will print the minimum cost for the matrix-chain product, as well as the optimal parenthesization associated to it:
+	
+\begin{lstlisting}[language=Java]
+
+public class MatrixChainMultiplication {
+	
+	public static void printParens(int[][] s, int i, int j) {
+		if (i == j)
+			System.out.print("A" + i);
+		else {
+			System.out.print("(");
+			printParens(s, i, s[i-1][j-2]);
+			printParens(s, s[i-1][j-2] + 1, j);
+			System.out.print(")");
+		}
+	}
+
+	public static void main(String[] args) {
+		int[] p = {5, 10, 3, 12, 5, 50, 6};
+		int n = p.length - 1;
+		int[][] m = new int[n][n];
+		int[][] s = new int[n-1][n-1];
+		
+		for (int i = 1; i <= n; i++) {
+			m[i-1][i-1] = 0;
+		}
+		
+		for (int d = 2; d <= n; d++) {
+			for (int i = 1; i <= n - d + 1; i++) {
+				int j = i + d - 1;
+				m[i-1][j-1] = Integer.MAX_VALUE;
+				for (int k = i; k <= j - 1; k++) {
+					int q = m[i-1][k-1] + m[k][j-1] + p[i-1] * p[k] * p[j];
+					if (q < m[i-1][j-1]) {
+						m[i-1][j-1] = q;
+						s[i-1][j-2] = k;
+					}
+				}
+			}
+		}
+		
+		System.out.println("min cost = " + m[0][n-1]);
+		printParens(s, 1, n);
+		
+	}
+	
+}
+
+\end{lstlisting}
+
+    After running the code, we get a minimum cost value of 2,010 and the following parenthesization for the six matrices: $((A_1A_2)((A_3A_4)(A_5A_6)))$.
+    \newline
+
+    \item
+    \begin{enumerate}[(a)]
+        \item 
+        \begin{gather*}
+            \log_2\left(\frac{4^n}{\sqrt{n}}\right) = \log_2\left(4^n\right) - \log_2\left(\sqrt{n}\right) = n\cdot\log_2(4) - \frac{1}{2}\log_2(n) = 2n - \frac{1}{2}\log_2(n)
+        \end{gather*}
+        If we look at the simplified expression, the dominant factor is $2n$ and therefore the asymptotic value is $O(n)$.
+        \item 
+        \begin{align*}
+            5^{313340} &< 7^{271251}\\
+            \ln\left(5^{313340}\right) &< \ln\left(7^{271251}\right)\\
+            313340\ln\left(5\right) &< 271251\ln\left(7\right)\\
+            313340 \cdot 1.6094 &< 271251 \cdot 1.9459\\
+            504,301.2755 &< 527,830.0738
+        \end{align*}
+        \item
+        \begin{gather*}
+            n^2\log_2\left(n^2\right) = 2n^2\log_2\left(n\right)\\
+            \log_2^2\left(n^3\right) = \left[3\log_2\left(n\right)\right]^2 = 9\log_2^2\left(n\right)
+        \end{gather*}
+        \item 
+        \begin{align*}
+            e^{-\frac{x^2}{2}} &= \frac{1}{n}\\
+            -\frac{x^2}{2} &= \ln\left(\frac{1}{n}\right)\\
+            x^2 &= (-2)(-\ln(n))\\
+            x &= \sqrt{2\ln(n)} 
+        \end{align*}
+        \item 
+        \begin{gather*}
+            \log_n\left(2^n\right) = n\log_n(2)\\
+            \log_n\left(n^2\right) = 2\log_n(n) = 2
+        \end{gather*}
+        \item 
+        \begin{gather*}
+            \log_2(n) = \frac{\log_3(n)}{\log_3(2)}
+        \end{gather*}
+        \item If we double $k$ times the value of $i$ we get $2^ki$. So we are looking for the smallest $k$ such that $2^ki \geq n$ and therefore $k \geq \log_2\left(\frac{n}{i}\right)$.
+        \item 
+        \begin{gather*}
+            \log_2\left[n^ne^{-n}\sqrt{2\pi n}\right] = n\log_2(n) - n\log_2(e) + \frac{1}{2}\log_2(2\pi) + \frac{1}{2}\log_2(n)
+        \end{gather*}
+        We observe that the second term of the sum is in the order of $O(n)$ (since $\log_2(e)$ is a constant), the third term is constant so it is $O(1)$ and the last term is in the order of $O(\log_2(n))$. Therefore, the leading term of the expression will be the first one, whose asymptotic value is $O(n\log_2(n))$.\\
+        The bracketed expression inside the logarithm is interesting because it corresponds to the approximation for $n!$ according to Stirling's formula:
+        \begin{gather*}
+            n! \sim n^ne^{-n}\sqrt{2\pi n}
+        \end{gather*}
+    \end{enumerate}
+
+\end{enumerate}
+\end{document}

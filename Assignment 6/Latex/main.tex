@@ -1,0 +1,284 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{main}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{main}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[linguistics]{forest}
+\usepackage{adjustbox}
+\usepackage{bbm}
+\usepackage{stmaryrd}
+%\usepackage[margin=0.5in]{geometry}
+%\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\ttfamily\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+ 
+\lstset{style=mystyle}
+
+\title{Fundamental Algorithms - Spring 2018\\
+       \Large Homework 6}
+%\graphicspath{{images/}}
+\setcitestyle{round, sort, numbers}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Daniel Rivera Ruiz\\
+  Department of Computer Science\\
+  New York University\\
+  \href{mailto:drr342@nyu.edu}{\texttt{drr342@nyu.edu}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+% \cite{} - in-line citation author, year in parenthesis.
+% \citep{} - all citation info in parenthesis.
+
+%	\begin{figure}[ht]
+%		\centering
+%		\frame{
+%            \includegraphics[width=1.0\linewidth]{tree.png}
+%       }
+%		\caption{Classification results for the sentence \textit{"There are slow and repetitive parts, but it has just enough spice to keep it                  interesting."} using the Stanford Sentiment Treebank. As can be seen, sentiment scores are available for each phrase.}
+%		\label{tree}
+%	\end{figure}
+
+\begin{enumerate}[1.]
+
+    \item 
+    \begin{enumerate}[(a)]
+        \item The successor of $c$ is $f$. Referring to the \texttt{SUCCESSOR} function, we find ourselves in the first case, where $c$ has a right child (in this case $g$). Once that has been established, we simply have to find the minimum element of the tree rooted at $g$ using \texttt{TREE-MIN}, which yields the desired value of $f$.
+        \item The minimal element is $h$. To find it, we run \texttt{TREE-MIN} starting at $a$ (the root of the tree), and just keep walking the tree always going to the \texttt{LEFT} child. In this case, there is only one step that takes us from $a$ to $h$.
+        \item To perform \texttt{DELETE[e]} we notice that $e$ has two non-NIL children, and therefore we are under the third case of the algorithm, which will perform the following steps:
+        \begin{lstlisting}
+DELETE[e]:
+    b = SUCCESSOR[e]
+    PARENT[b] $\leftarrow$ d
+    LEFT[d] $\leftarrow$ b
+    LEFT[b] $\leftarrow$ c
+    PARENT[c] $\leftarrow$ b
+    RIGHT[b] $\leftarrow$ NIL\end{lstlisting}
+    
+        After performing these operations, the tree will look as follows:
+	\begin{center}
+      \begin{forest}
+          for tree={grow=0} % tree direction
+        [\text{$a$}
+            [\text{$h$}]
+            [\text{$d$}
+                [\text{$b$}
+                    [\text{$c$}
+                        [\textit{NIL}]
+                        [\text{$g$}
+                            [\text{$f$}]
+                            [\textit{NIL}]]]
+                    [\textit{NIL}]]
+                [\textit{NIL}]]]
+      \end{forest}
+    \end{center}
+    \end{enumerate}
+
+    \item The following trees, from left to right, have heights $2, 3, 4, 5, 6$:
+	\begin{center}
+        \begin{forest}
+        [\text{10}
+            [\text{4}
+                [\text{1}]
+                [\text{5}]]                
+            [\text{17}
+                [\text{16}]
+                [\text{21}]]]
+        \end{forest}
+        \hspace{1cm}
+        \begin{forest}
+        [\text{10}
+            [\text{5}
+                [\text{4}
+                    [\text{1}]]]                
+            [\text{17}
+                [\text{16}]
+                [\text{21}]]]
+        \end{forest}
+        \hspace{1cm}
+        \begin{forest}
+        [\text{16}
+            [\text{10}
+                [\text{5}
+                    [\text{4}
+                        [\text{1}]]]]                
+            [\text{17}
+                [\text{21}]]]
+        \end{forest}
+        \hspace{1cm}
+        \begin{forest}
+        [\text{17}
+            [\text{16}
+                [\text{10}
+                    [\text{5}
+                        [\text{4}
+                            [\text{1}]]]]]                
+            [\text{21}]]
+        \end{forest}
+        \hspace{1cm}
+        \begin{forest}
+        [\text{21}
+            [\text{17}
+                [\text{16}
+                    [\text{10}
+                        [\text{5}
+                            [\text{4}
+                                [\text{1}]]]]]]]
+        \end{forest}
+    \end{center}
+    
+    \item The binary search tree has the following properties for any node $x$:
+        \begin{itemize}
+            \item \textit{key}$(y) \leq$ \textit{key}$(x) \; \forall \; y \in $ \texttt{Tree[Left[x]]}
+            \item \textit{key}$(z) >$ \textit{key}$(x) \; \forall \; z \in $ \texttt{Tree[Right[x]]} 
+        \end{itemize}
+        Whereas a max heap $A$ has the following properties:
+        \begin{itemize}
+            \item \textit{key}$(i) \leq$ \textit{key}(\texttt{PARENT[i]}) $\; \forall \; i \neq $ \texttt{Root[A]}
+            \item All rows of the heap (excepting maybe the last) must be fully filled.
+        \end{itemize}
+    The properties of a heap are not enough to print the keys of an $n$-node tree in sorted order in $O(n)$ time. The simple intuition behind this is that if we want to sort a heap $A$, we need to use a \texttt{HEAP-SORT[A]} algorithm, which takes $O(n \log_2n)$ for a heap (tree) with $n$ elements.
+    
+    \item The following are the two trees that would be built under the conditions described:
+    \begin{center}
+        \begin{forest}
+        [\text{$a_1(1)$}
+            [\textit{NIL}]
+            [\text{$a_2(2)$}
+                [\textit{NIL}]
+                [\text{$\ldots$}
+                    [\textit{NIL}]
+                    [\text{$a_{n-1}(n-1)$}
+                        [\textit{NIL}]
+                        [\text{$a_n(n)$}]]]]]
+        \end{forest}
+        \hspace{3cm}
+        \begin{forest}
+        [\text{$a_1(1)$}
+            [\textit{NIL}]
+            [\text{$a_n(n)$}
+                [\text{$\ldots$}
+                    [\text{$a_{3}(3)$}
+                        [\text{$a_2(2)$}]
+                        [\textit{NIL}]]
+                    [\textit{NIL}]]
+                [\textit{NIL}]]]
+        \end{forest}
+    \end{center}
+    As we can see, both trees will end up being very unbalanced.In the first case, all the insertions will be made in the \texttt{RIGHT} child of the previous element, basically creating a "list-like" structure. In the second case, only the first element $n$ will be inserted as the \texttt{RIGHT} child of $1$, and after that all insertions will go to the \texttt{LEFT} child of the previous one.
+    
+    \item 
+    \begin{enumerate}[(a)]
+        \item Step 4 executes \texttt{EXTRACT-MAX[A]}, which we know it takes time $O(\log_2n)$ for a heap of size $n$. In this case, the original heap has size $N$, and with each iteration inside the \texttt{while} loop the size is reduced by one (since we are extracting the max element each time). Therefore, at the $I^{th}$ iteration step 4 will take time:
+        \begin{equation*}
+            T = O(\log_2(N-I+1))
+        \end{equation*}
+        \item The \texttt{while} loop will execute as long as $I \cdot I \leq N$, or what is equivalent $I \leq \sqrt{N}$. Inside the loop, we have the \texttt{EXTRACT-MAX} operation, whose execution time we already know, and the \texttt{I++} operation, which takes constant time. Therefore, the total time for the \texttt{while} loop will be:
+        \begin{align*}
+            T &= O\left(\sum_{I = 1}^{\sqrt{N}}\left(\log_2(N - I + 1) + 1\right)\right) \\
+            T &= O\left(\log_2\left(\prod_{I = 1}^{\sqrt{N}}(N - I + 1) \right) + \sqrt{N}\right) \\
+            T &= O\left(\log_2\left(\frac{N!}{\left(N - \sqrt{N}\right)!}\right) + \sqrt{N}\right) 
+            %T &= O\left(\log_2N! - \log_2\left(N - \sqrt{N}\right)! + \sqrt{N}\right) \\
+        \end{align*}
+        If we look only at the argument of the logarithm and apply Sterling's formula to both numerator and denominator we get:
+        \begin{equation*}
+            \frac{N!}{\left(N - \sqrt{N}\right)!} \sim \frac{N^N}{\left(N - \sqrt{N}\right)^{\left(N - \sqrt{N}\right)}}
+        \end{equation*}
+        Now we look only at the denominator and we notice that if we expand it, it will yield a polynomial expression on $N$ of order $N - \sqrt{N}$. Since we are doing asymptotic analysis, we can replace the whole polynomial with its highest order term:
+        \begin{equation*}
+            O\left(\frac{N^N}{\left(N - \sqrt{N}\right)^{\left(N - \sqrt{N}\right)}}\right) = O\left(\frac{N^N}{N^{\left(N - \sqrt{N}\right)}}\right) = O\left(N^{\sqrt{N}}\right)
+        \end{equation*}
+        Finally, we replace this result in the original expression for the time complexity of the \texttt{while} loop and we get:
+        \begin{align*}
+            T &= O\left(\log_2\left(N^{\sqrt{N}}\right) + \sqrt{N}\right) \\
+            T &= O\left(\sqrt{N} \log_2 N + \sqrt{N}\right) \\
+            T &= O\left(\sqrt{N} (\log_2 N + 1)\right) \\
+            T &= O\left(\sqrt{N} \log_2 N \right) 
+        \end{align*}
+        %Since we are performing asymptotic analysis, we need to focus on large values of $N$, which means that $N \gg \sqrt{N}$ and therefore $N \sim (N - \sqrt{N})$. Under this assumption, we can define a constant $K$:
+        %\begin{equation*}
+        %    K = \log_2\left(\frac{N!}{\left(N - \sqrt{N}\right)!}\right)
+        %\end{equation*}
+        %Applying Stirling's formula ($\log_2n! \sim n \log_2 n$) to the two logarithms we get:
+        %\begin{align*}
+        %    T &= O\left(N \log_2 N - \left(N - \sqrt{N}\right) \log_2 \left(N - \sqrt{N}\right) + \sqrt{N}\right) \\
+        %    T &= O\left(N \log_2 N - \left(N - \sqrt{N}\right)\left(\log_2N + \log_2\left(1 - \frac{\sqrt{N}}{N}\right)\right) + \sqrt{N}\right) \\
+        %    T &= O\left(N \log_2 \left(\frac{N}{N - \sqrt{N}}\right) + \sqrt{N} \left(1 + \log_2 \left(N - \sqrt{N}\right) \right)\right)\\
+        %    T &= O\left(-N \log_2 \left(1 - \frac{\sqrt{N}}{N}\right) + \sqrt{N} \left(1 + \log_2 \left(N - \sqrt{N}\right) \right)\right)\\
+        %\end{align*}
+        \item The total time for the whole \texttt{KAUSHIK} algorithm will be given by the time it takes to run \texttt{BUILD-MAX-HEAP}, plus the total time for the \texttt{while} loop:
+        \begin{align*}
+            T &= O\left(N + \sqrt{N}\log_2 N\right) \\
+            T &= O(N) 
+        \end{align*}
+        The linear term dominates the asymptotic analysis because the logarithmic function is always negligible when compared to polynomial functions.
+        \item After completing its execution, \texttt{KAUSHIK} returns the value $z = A[1]$. Since the first thing the algorithm does is build a max heap out of $A$, and the heap property is preserved throughout the algorithm, we can guarantee that the value returned by \texttt{KAUSHIK} will be the maximum of the (remaining) elements in $A$ by the end of the execution. Out of the $N$ elements that $A$ had originally, the $\sqrt{N}$ largest will be extracted and lost inside the \texttt{while} loop, leaving the array with only $N - \sqrt{N}$ elements by the time the return statement is reached. Therefore, when the algorithm returns the max value of the final version of $A$, it is in fact returning the $(\sqrt{N} + 1)^{th}$ largest element of the original input array.
+    \end{enumerate}
+
+\end{enumerate}
+\end{document}

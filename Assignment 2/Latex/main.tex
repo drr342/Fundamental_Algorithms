@@ -1,0 +1,302 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{main}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{main}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[linguistics]{forest}
+\usepackage{adjustbox}
+\usepackage{bbm}
+%\usepackage[margin=0.5in]{geometry}
+%\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\ttfamily\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+ 
+\lstset{style=mystyle}
+
+\title{Fundamental Algorithms - Spring 2018\\
+       \Large Homework 2}
+%\graphicspath{{images/}}
+\setcitestyle{round, sort, numbers}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Daniel Rivera Ruiz\\
+  Department of Computer Science\\
+  New York University\\
+  \href{mailto:drr342@nyu.edu}{\texttt{drr342@nyu.edu}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+% \cite{} - in-line citation author, year in parenthesis.
+% \citep{} - all citation info in parenthesis.
+
+%	\begin{figure}[ht]
+%		\centering
+%		\frame{
+%            \includegraphics[width=1.0\linewidth]{tree.png}
+%       }
+%		\caption{Classification results for the sentence \textit{"There are slow and repetitive parts, but it has just enough spice to keep it                  interesting."} using the Stanford Sentiment Treebank. As can be seen, sentiment scores are available for each phrase.}
+%		\label{tree}
+%	\end{figure}
+
+\begin{enumerate}[1.]
+
+    \item Using the method explained in class:\\
+    First we create an auxiliary array $B$ of size $r - p + 1 = 12$.\\
+    Then we select the pivot as the $r^{th}$ element of $A$ and initialize \textit{left} and \textit{right}:
+    \begin{align*}
+        \text{pivot} &= x = A[12] = 10\\
+        \text{left} &= p = 1\\
+        \text{right} &= r = 12
+    \end{align*}
+    
+    For each element $A[i]$ of A, with $i$ ranging between $p = 1$ and $r - 1 = 11$, we traverse $A$, compare the values with the pivot and update the values of $B$, \textit{left} and \textit{right}:
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{cccccc}
+			\toprule
+			$i$ & $A[i]$ & $\leq x ?$ & $B$ & left & right\\
+			\midrule
+            1 & 13 & False & (\textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 13) & 1 & 11\\
+            2 & 18 & False & (\textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 18, 13) & 1 & 10\\
+            3 & 9 & True & (9, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 18, 13) & 2 & 10\\
+            4 & 5 & True & (9, 5, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 18, 13) & 3 & 10\\
+            5 & 12 & False & (9, 5, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 12, 18, 13) & 3 & 9\\
+            6 & 8 & True & (9, 5, 8, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 12, 18, 13) & 4 & 9\\
+            7 & 7 & True & (9, 5, 8, 7, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 12, 18, 13) & 5 & 9\\
+            8 & 4 & True & (9, 5, 8, 7, 4, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 12, 18, 13) & 6 & 9\\
+            9 & 11 & False & (9, 5, 8, 7, 4, \textunderscore, \textunderscore, \textunderscore, 11, 12, 18, 13) & 6 & 8\\
+            10 & 2 & True & (9, 5, 8, 7, 4, 2, \textunderscore, \textunderscore, 11, 12, 18, 13) & 7 & 8\\
+            11 & 6 & True & (9, 5, 8, 7, 4, 2, 6, \textunderscore, 11, 12, 18, 13) & 8 & 8\\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+
+    We copy the pivot value in the last position available in $B$, which will be $i = $ \textit{left}: 
+    \begin{equation*}
+            B[8] = 10
+    \end{equation*}
+    Finally, we copy back the partitioned array $B$ into $A$ and return \textit{left} $ = 8$.
+    
+    \newpage
+    
+    \item Let's use the following table to calculate the exact value of $L(1023)$:
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{ccccc}
+			\toprule
+			Iteration & No. of pivots & No. of sub-arrays & Size of sub-array & No. of comparisons\\
+			\midrule
+            1 & 1 & 1 & 1022 & $1 \cdot 1022 = 1022$\\
+            2 & 3 & 2 & 510 & $2 \cdot 510 = 1020$\\
+            3 & 7 & 4 & 254 & $4 \cdot 254 = 1016$\\
+            4 & 15 & 8 & 126 & $8 \cdot 126 = 1008$\\
+            5 & 31 & 16 & 62 & $16 \cdot 62 = 992$\\
+            6 & 63 & 32 & 30 & $32 \cdot 30 = 960$\\
+            7 & 127 & 64 & 14 & $64 \cdot 14 = 896$\\
+            8 & 255 & 128 & 6 & $128 \cdot 6 = 768$\\
+            9 & 511 & 256 & 2 & $256 \cdot 2 = 512$\\
+            \midrule
+            &&& \textbf{Total} & \textbf{8194}\\
+			\bottomrule
+		\end{tabular}
+	\end{table}\\
+	The $10^{th}$ (last) iteration will not require any comparisons, because \emph{all} the values in the array will be pivots and therefore will not be compared to anything. Finally, we have the desired value $L(1023) = 8194$.
+	
+    \vspace{0.5cm}
+    
+	\item The following decision tree solves the problem with (at most) four further comparisons (the left branch means that the comparison yields true):
+	
+	\vspace{0.5cm}
+	\begin{adjustbox}{width=\linewidth}
+      \begin{forest}
+        [\text{$c < e$}
+            [\text{$d < e$}
+                [\text{$b < d$}
+                    [\text{$b < c$}
+                        [\textit{abcde} ]
+                        [\textit{acbde} ]]
+                    [\text{$b < e$}
+                        [\textit{acdbe} ]
+                        [\textit{acdeb} ]]]
+                [\text{$b < e$}
+                    [\text{$b < c$}
+                        [\textit{abced} ]
+                        [\textit{acbed} ]]
+                    [\text{$b < d$}
+                        [\textit{acebd} ]
+                        [\textit{acedb} ]]]]
+            [\text{$a < e$}
+                [\text{$b < c$}
+                    [\text{$b < e$}
+                        [\textit{abecd} ]
+                        [\textit{aebcd} ]]
+                    [\text{$b < d$}
+                        [\textit{aecbd} ]
+                        [\textit{aecdb} ]]]
+                [\text{$b < c$}
+                    [\textit{eabcd} ]
+                    [\text{$b < d$}
+                        [\textit{eacbd} ]
+                        [\textit{eacdb} ]]]]]
+      \end{forest}
+    \end{adjustbox}
+    \vspace{0.5cm}
+    
+    \item If $a < c = \textit{false}$, then Babu already knows that $c < a < b$ after using two comparisons. The third comparison could either be "is $c < d$?" or "is $c < e$?", and he will end up in a situation similar to the one depicted in problem 3. With four questions left, Babu could assure to sort all the elements.\\
+    Let us then focus on the case where $a < c = \textit{true}$:
+        \begin{enumerate}[(a)]
+            \item At this point, after two comparisons, Babu knows that $a < c$ and $a < b$.
+            \item The next "smart" question would be "is $c < d$?". If the answer to this question were \textit{true}, after three comparisons Babu would know that $(a < c < d)$ and $(a < b)$, and he would be able to follow the procedure from problem 3. (The question could also be "is $c < e$?" with similar results).
+            \item If $c < d = \textit{false}$, after three questions Babu only knows that $a <c$, $a < b$ and $d < c$. At this point, he will need one extra question to be able to get a triple inequality (relating either $abc$ or $acd$) that will leave him in a similar position to the one of problem 3.
+            \item With four questions already used and only three questions left, Babu will not be able to guarantee the sorting of all the elements (although he might get lucky and follow the one path in the tree that only requires three comparisons). 
+        \end{enumerate}
+        
+    \newpage
+    \item First we create the auxiliary array $C$ of size $k + 1$ with $k = 6$ and fill it with zeros:
+    \begin{equation*}
+        C = (0, 0, 0, 0, 0, 0, 0)
+    \end{equation*}
+    Then we populate $C$ by traversing $A$ from $s = 1$ to $s = N = 11$:
+    \begin{table}[ht]
+		\centering
+		\begin{tabular}{ccc}
+			\toprule
+			$s$ & $A[s]$ & $C$\\
+			\midrule
+            1 & 6 & (0, 0, 0, 0, 0, 0, 1)\\
+            2 & 0 & (1, 0, 0, 0, 0, 0, 1)\\
+            3 & 2 & (1, 0, 1, 0, 0, 0, 1)\\
+            4 & 2 & (1, 0, 2, 0, 0, 0, 1)\\
+            5 & 0 & (2, 0, 2, 0, 0, 0, 1)\\
+            6 & 1 & (2, 1, 2, 0, 0, 0, 1)\\
+            7 & 3 & (2, 1, 2, 1, 0, 0, 1)\\
+            8 & 4 & (2, 1, 2, 1, 1, 0, 1)\\
+            9 & 6 & (2, 1, 2, 1, 1, 0, 2)\\
+            10 & 1 & (2, 2, 2, 1, 1, 0, 2)\\
+            11 & 3 & (2, 2, 2, 2, 1, 0, 2)\\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+    
+    Then we create the cumulative version of $C$:
+    \begin{table}[ht]
+		\centering
+		\begin{tabular}{cc}
+			\toprule
+			$t$ & $C$\\
+			\midrule
+            1 & (2, 4, 2, 2, 1, 0, 2)\\
+            2 & (2, 4, 6, 2, 1, 0, 2)\\
+            3 & (2, 4, 6, 8, 1, 0, 2)\\
+            4 & (2, 4, 6, 8, 9, 0, 2)\\
+            5 & (2, 4, 6, 8, 9, 9, 2)\\
+            6 & (2, 4, 6, 8, 9, 9, 11)\\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	Finally, we populate the auxiliary array $B$:
+	    \begin{table}[ht]
+		\centering
+		\begin{tabular}{ccccc}
+			\toprule
+			$j$ & $A[j]$ & $C[A[j]]$ & $B$ & $C$ (updated) \\
+			\midrule
+            11 & 3 & 8 & (\textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, \textunderscore, 3, \textunderscore, \textunderscore, \textunderscore) & (2, 4, 6, 7, 9, 9, 11)\\
+            10 & 1 & 4 & (\textunderscore, \textunderscore, \textunderscore, 1, \textunderscore, \textunderscore, \textunderscore, 3, \textunderscore, \textunderscore, \textunderscore) & (2, 3, 6, 7, 9, 9, 11)\\
+            9 & 6 & 11 & (\textunderscore, \textunderscore, \textunderscore, 1, \textunderscore, \textunderscore, \textunderscore, 3, \textunderscore, \textunderscore, 6) & (2, 3, 6, 7, 9, 9, 10)\\
+            8 & 4 & 9 & (\textunderscore, \textunderscore, \textunderscore, 1, \textunderscore, \textunderscore, \textunderscore, 3, 4, \textunderscore, 6) & (2, 3, 6, 7, 8, 9, 10)\\
+            7 & 3 & 7 & (\textunderscore, \textunderscore, \textunderscore, 1, \textunderscore, \textunderscore, 3, 3, 4, \textunderscore, 6) & (2, 3, 6, 6, 8, 9, 10)\\
+            6 & 1 & 3 & (\textunderscore, \textunderscore, 1, 1, \textunderscore, \textunderscore, 3, 3, 4, \textunderscore, 6) & (2, 2, 6, 6, 8, 9, 10)\\
+            5 & 0 & 2 & (\textunderscore, 0, 1, 1, \textunderscore, \textunderscore, 3, 3, 4, \textunderscore, 6) & (1, 2, 6, 6, 8, 9, 10)\\
+            4 & 2 & 6 & (\textunderscore, 0, 1, 1, \textunderscore, 2, 3, 3, 4, \textunderscore, 6) & (1, 2, 5, 6, 8, 9, 10)\\
+            3 & 2 & 5 & (\textunderscore, 0, 1, 1, 2, 2, 3, 3, 4, \textunderscore, 6) & (1, 2, 4, 6, 8, 9, 10)\\
+            2 & 0 & 1 & (0, 0, 1, 1, 2, 2, 3, 3, 4, \textunderscore, 6) & (0, 2, 4, 6, 8, 9, 10)\\
+            1 & 6 & 10 & (0, 0, 1, 1, 2, 2, 3, 3, 4, 6, 6) & (0, 2, 4, 6, 8, 9, 9)\\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	And we copy back the sorted array $B$ into $A$.
+    
+    \newpage
+    \item If we retrieve the third largest entry of the Max-Heap by performing \texttt{EXTRACT-MAX} twice and \texttt{MAX} once, the time complexity will be:
+    \begin{align*}
+        T &= O(lg(N)) + O(lg(N)) + O(1)\\
+        \boldsymbol{T} &= \boldsymbol{O(lg(N))}
+    \end{align*}
+    
+    However, if we look only at the top seven elements of the heap, we can guarantee that the third largest entry will be among them. We can then sort this elements (which will take constant time) and return the $5^{th}$ element of the sorted array, i.e., the third largest element of the original Max-Heap.
+    
+    Given the original Max-Heap in the form of an array $A[1...N]$ the algorithm is as follows:
+        \begin{enumerate}[(i)]
+            \item Copy $A[i]$ for $i = 1$ to $i = 7$ into an auxiliary array $B$. (\textit{Time} $= O(1)$)
+            \item Sort the array $B$, which only has 7 elements. (\textit{Time} $= O(1)$)
+            \item Return the $5^{th}$ element of $B$ (\textit{Time} $= O(1)$)
+        \end{enumerate}
+        
+    Since all of the steps in this algorithm require a constant amount of time, the overall complexity of the algorithm is $O(1)$, which is clearly better than $O(lg(N))$.
+
+\end{enumerate}
+\end{document}

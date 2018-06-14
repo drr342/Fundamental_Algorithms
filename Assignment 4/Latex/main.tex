@@ -1,0 +1,216 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{main}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{main}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[linguistics]{forest}
+\usepackage{adjustbox}
+\usepackage{bbm}
+\usepackage{fancyvrb}
+%\usepackage[margin=0.5in]{geometry}
+%\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\ttfamily\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+ 
+\lstset{style=mystyle}
+
+\title{Fundamental Algorithms - Spring 2018\\
+       \Large Homework 4}
+%\graphicspath{{images/}}
+\setcitestyle{round, sort, numbers}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Daniel Rivera Ruiz\\
+  Department of Computer Science\\
+  New York University\\
+  \href{mailto:drr342@nyu.edu}{\texttt{drr342@nyu.edu}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+% \cite{} - in-line citation author, year in parenthesis.
+% \citep{} - all citation info in parenthesis.
+
+%	\begin{figure}[ht]
+%		\centering
+%		\frame{
+%            \includegraphics[width=1.0\linewidth]{tree.png}
+%       }
+%		\caption{Classification results for the sentence \textit{"There are slow and repetitive parts, but it has just enough spice to keep it                  interesting."} using the Stanford Sentiment Treebank. As can be seen, sentiment scores are available for each phrase.}
+%		\label{tree}
+%	\end{figure}
+
+\begin{enumerate}[1.]
+
+    \item The following table shows the values of $T$ for the first iterations:
+    	\begin{table}[h!t]
+		\centering
+		\begin{tabular}{ll}
+			\toprule
+			$n$ & $T(n)$\\
+			\midrule
+            1 & 1\\
+            3 & $9T(1)+3^2=18=2\cdot3^2$\\
+            9 & $9T(3)+9^2=243=3\cdot3^4$\\
+            27 & $9T(9)+27^2=2,916=4\cdot3^6$\\
+            81 & $9T(27)+81^2=32,805=5\cdot3^8$\\
+            243 & $9T(81)+243^2=354,294=6\cdot3^{10}$\\
+            $\ldots$ & $\ldots$\\
+            $3^i$ & $9T(3^{i-1})+(3i)^2=(i+1)\cdot3^{2i}$\\
+			\bottomrule
+		\end{tabular}
+	    \end{table}
+	
+	So in general we have the following system:
+	\begin{gather*}
+      \left\{
+        \begin{array}{l}
+    	    T(n) = (i+1)\cdot3^{2i}\\
+    	    n = 3^i
+        \end{array}
+      \right.
+    \end{gather*}
+    Which gets us to the closed form
+    \begin{equation*}
+        T(n) = (\log_3(n)+1)\cdot n^2
+    \end{equation*}
+    Using the master theorem we observe that $\log_3(9)=2$ and $f(n)=n^2$, so we are in the just right overhead case and therefore
+    \begin{equation*}
+        T(n)=\Theta(n^2\log_3(n))
+    \end{equation*}
+    
+    \item The following table shows the analysis for the three functions:
+	\begin{table}[h!t]
+		\centering
+		\begin{tabular}{llllll}
+			\toprule
+			& $T(n)$ & $\log_b(a)$ & $f(n)$ & Type & Asymptotics\\
+			\midrule
+			a) & $6T(\frac{n}{2}) + n\sqrt{n}$ & 2.5850 & $\Theta(n^\frac{3}{2})$ & Low & $\Theta(n^{\textit{lg}6})$\\
+			b) & $4T(\frac{n}{2}) + n^5$ & 2 & $\Theta(n^5)$ & High & $\Theta(n^5)$\\
+			c) & $4T(\frac{n}{2}) + 7n^2 + 2n + 1$ & 2 & $\Theta(n^2)$ & Just right & $\Theta(n^2 \textit{lg}(n))$\\
+			\bottomrule
+		\end{tabular}
+    \end{table}
+    
+    \item The recursion for the \texttt{Toom-3} algorithm is given by:
+    \begin{equation*}
+        T(n) = 5T\left(\frac{n}{3}\right) + O(n)
+    \end{equation*}
+    Using the master theorem (with low overhead since $1 < \log_35$) we get:
+    \begin{equation*}
+        T(n) = \Theta(n^{\log_35})
+    \end{equation*}
+    \newline
+    To compare it with the Karatsuba algorithm, we observe that $log_23 \approx 1.5849$ and $log_35 \approx 1.4648$, so it is clear that, for large values of $n$, the \texttt{Toom-3} algorithm will be faster.
+    
+    \item
+    \begin{enumerate}[(a)]
+        \item We simply use the formula for the sum of squares up to $n$ and reduce from there:
+        \begin{align*}
+            S &= n^2 + (n+1)^2 + \ldots + (2n)^2\\
+            S &= \frac{(2n)(2n+1)(4n+1)}{6} - \frac{(n-1)(n)(2n-1)}{6}\\
+            S &= \frac{14 n^3 + 15 n^2 + n}{6}\\
+            S &= \Theta(n^3)\\
+            c_1 &= \frac{7}{3}, c_2 = \frac{15}{6}\\
+        \end{align*}
+        \item If we consider the whole series $S = \textit{lg}^2(1) + \textit{lg}^2(2) + \ldots + \textit{lg}^2(n)$, which has $n$ elements less or equal than $\textit{lg}^2(n)$, we conclude that $S < n\cdot \textit{lg}^2(n)$.\\
+        Furthermore, if we take half the series $S = \textit{lg}^2(\frac{n}{2}) + \ldots + \textit{lg}^2(n)$, which has $\frac{n}{2}$ elements greater or equal than $\textit{lg}^2(\frac{n}{2})$, we conclude that $S > \frac{n}{2}\cdot \textit{lg}^2(\frac{n}{2})$.\\
+        Putting this two inequalities together we get 
+        \begin{equation*}
+            \frac{n}{2}\cdot \textit{lg}^2\left(\frac{n}{2}\right) < S < n\cdot \textit{lg}^2(n)
+        \end{equation*}
+        Which for the asymptotic analysis yields $S = \Theta(n\cdot \textit{lg}^2(n))$.\\
+        By simple observation of the previous inequalities, we can define the constants $c_1$ and $c_2$ as follows:
+        \begin{equation*}
+            c_1 = \frac{n}{2}, c_2 = n
+        \end{equation*}
+        \item We simply use the formula for the sum of cubes up to $n$ and reduce from there:
+        \begin{align*}
+            S &= 1^3 + 2^3 + \ldots + n^3\\
+            S &= \left[\frac{n(n+1)}{2}\right]^2\\
+            S &= \frac{n^4 + 2 n^3 + n^2}{4}\\
+            S &= \Theta(n^4)\\
+            c_1 &= \frac{1}{4}, c_2 = \frac{1}{3}\\
+        \end{align*}
+    \end{enumerate}
+	    
+    \item Algorithm to subtract two $n$-digit decimal numbers:\\
+        \begin{Verbatim}[obeytabs]
+SUBTRACT(A, B):
+    INPUT = A[0...N], B[0...N]
+    OUPUT = C[0...N]
+    
+    FOR I = 0 TO (N-1):
+        IF A[I] < B[I]:
+            A[I] += 10
+            B[I+1]++
+        C[I] = A[I] - B[I]
+    C[N] = A[N] - B[N]
+    return C
+        \end{Verbatim}
+
+In the worst-case scenario, we will perform four operations inside the \texttt{FOR} loop: one comparison, two additions and one subtraction. At the end there is one additional subtraction of the left-most digits. If we measure the time complexity of the algorithm as the number of operations performed we get $T(n) = 4n + 1$, which results in the asymptotic form $T(n) = \Theta(n)$.
+
+\end{enumerate}
+\end{document}

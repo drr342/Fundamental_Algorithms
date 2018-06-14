@@ -1,0 +1,169 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{main}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{main}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[linguistics]{forest}
+\usepackage{adjustbox}
+\usepackage{bbm}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+%\usepackage[margin=0.5in]{geometry}
+%\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\ttfamily\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+ 
+\lstset{style=mystyle}
+
+\title{Fundamental Algorithms - Spring 2018\\
+       \Large Homework 12}
+\graphicspath{{images/}}
+\setcitestyle{round, sort, numbers}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Daniel Rivera Ruiz\\
+  Department of Computer Science\\
+  New York University\\
+  \href{mailto:drr342@nyu.edu}{\texttt{drr342@nyu.edu}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+% \cite{} - in-line citation author, year in parenthesis.
+% \citep{} - all citation info in parenthesis.
+
+%	\begin{figure}[ht]
+%		\centering
+%		\frame{
+%            \includegraphics[width=1.0\linewidth]{tree.png}
+%       }
+%		\caption{Classification results for the sentence \textit{"There are slow and repetitive parts, but it has just enough spice to keep it                  interesting."} using the Stanford Sentiment Treebank. As can be seen, sentiment scores are available for each phrase.}
+%		\label{tree}
+%	\end{figure}
+
+\begin{enumerate}[1.]
+
+    \item 
+    \begin{enumerate}[(a)]
+        \item \texttt{PRIME}. In 2006, the AKS primality test algorithm was developed to determine whether a given number $n$ is prime. When first published, the asymptotic complexity was given by $O(\log^{12}(n))$, which is polynomial in the number of digits of $n$. Since then the algorithm has been improved reducing this value to $O(\log^6(n))$. This means that \texttt{PRIME} is in $P$.
+        \item Twenty years ago the AKS primality test algorithm didn't exist yet, thus \texttt{PRIME} was not in $P$.
+        \item \texttt{CONNECTED-GRAPH}. This problem is in $P$, since it suffices to run \texttt{BFS} on $G$, which takes time $O(V+E)$: if \texttt{BFS} visits all the vertices in $G$ return \texttt{True}, otherwise return \texttt{False}.
+        \item \texttt{TRAVELING-SALESMAN}. As of today, this problem is not in $P$.
+        \item \texttt{SPANNING-TREE}. This problem is in $P$: we need only to run Kruskal's algorithm on $G$ to find the \texttt{MST}, which takes $O(E\log_2V)$. If the weight of the tree is less or equal to $B$ return \texttt{True}, otherwise return \texttt{False}.
+        %\item \texttt{ALMOSTDAG}. This problem is also in $P$: first we run \texttt{DFS} on $G$, which takes time $O(V+E)$. If no back edges are found, $G$ is a \texttt{DAG} and we return \texttt{True}. If we find a back edge, we remove it and run \texttt{DFS} again. In the worst case, we will run \texttt{DFS} $C$ times, where $C$ is the constant maximal number of edges that can be removed, giving an overall running time of $O(C(V+E)) = O(V+E)$. If after the last removal we still find a back edge, return \texttt{False}.
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}[(a)]
+        \item \texttt{PRIME-INTERVAL}.
+        \begin{itemize}
+            \item Certificate: the prime number $p$.
+            \item Verification: divide $n$ by $p$ in $O(\log^2(n))$ time, check that $a \leq p \leq b$ in $O(1)$ and check that $p$ is prime using \texttt{AKS}.
+        \end{itemize}
+        \item \texttt{TRAVELING-SALESMAN}.
+        \begin{itemize}
+            \item Certificate: the ordered set of vertices $V = \{v_1, v_2, \ldots , v_n\}$.
+            \item Verification: check that $V$ has no duplicates in $O(n)$ to confirm that the set forms a Hamiltonian path. Furthermore, check that there is a back edge in $O(1)$ to confirm that the vertices form a Hamiltonian cycle. Finally, add the weights of all the edges in $O(n)$ to confirm that the sum is less or equal to $B$.
+        \end{itemize}
+        \item \texttt{RAMANUJAN}.
+        \begin{itemize}
+            \item Certificate: the two couples of numbers $C_1 = \{a, b\}$ and $C_2 = \{c, d\}$.
+            \item Verification: find the cube of each number with two multiplications in $O(m^4)$, where $m$ is the number of digits in the number. Perform the two additions in $O(m)$. Check that $n = a^3 + b^3$ and $n = c^3 + d^3$ in $O(1)$.
+        \end{itemize}
+        \item \texttt{COMPOSITE}.
+        \begin{itemize}
+            \item Certificate: the prime factorization of $n = p_1^{\alpha_1}p_2^{\alpha_2} \ldots p_m^{\alpha_m}$.
+            \item Verification 1: ignore the oracle's certificate and run \texttt{AKS} to test for primality.
+            \item Verification 2: perform the exponentiations and multiplications in polynomial time and check for equality with $n$ in constant time.
+        \end{itemize}
+        \item \texttt{3-COLOR}.
+        \begin{itemize}
+            \item Certificate: a set of tuples $(v,c)$ for all the vertices $v$ in $G$ with the assigned color $c$.
+            \item Verification: Traverse the adjacency lists for all $v$ in $O(E)$ and check that for each vertex no adjacent vertex has the same color as itself.
+        \end{itemize}
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}[(a)]
+        \item Let's consider a vertex $w$ and its adjacency list $adj(w) = \{w_1, w_2, \ldots, w_m\}$. We run \texttt{TRAVELLING-SALESMAN DESIGNATED PATH} with $v_1 = w$ and $v_n = w_i$ for $1 \leq i \leq m$: if any of the runs returns \texttt{True}, we calculate the total weight of all the edges in the path plus the weight of the edge $\{w, w_i\}$ (which must exist since the vertices selected are adjacent): if the total weight is less or equal to $B$ we return \texttt{True}. We repeat this procedure for all vertices in $G$ until we find a Hamiltonian cycle. If we traverse all vertices without success, we return \texttt{False}.\\
+        Assuming that $L_2$ - \texttt{TRAVELLING-SALESMAN DESIGNATED PATH} can be solved in unit time, the previous algorithm can solve $L_1$ - \texttt{TRAVELING-SALESMAN} in polynomial time, since we will run $L_2$ at most $O(E)$ times, which is the upper bound for the sum of the lengths of all the adjacency lists in the graph. All the other calculations in the algorithm (additions, comparisons, etc.) can also be done in polynomial time.
+    \end{enumerate}
+    
+    \item If we consider \texttt{PRIME-INTERVAL} with $a = 2$ and $b = n$ we can guarantee that it will return \texttt{True}, since all the prime factors of $n$ must be in this interval. With this initialization, we will consider intervals of half the size at each iteration of the algorithm: in the first step we will evaluate \texttt{PRIME-INTERVAL}$(a = 2, b = \frac{n}{2}, n = n)$. If this returns \texttt{True}, we know there is a prime in the interval $[2, \frac{n}{2}]$, otherwise there must be a prime in $[\frac{n}{2}, n]$.\\
+    We will repeat this procedure always selecting the interval where the prime factor $p$ lies until we get two intervals of size one. At this point we have found a prime factor of $n$, since \texttt{PRIME-INTERVAL} must return \texttt{True} for (at least) one of the intervals.\\
+    Given the assumption that \texttt{PRIME-INTERVAL} is in $P$ and the fact that the algorithm makes $\log_2(n)$ calls to this procedure, we can conclude that the overall time complexity of the algorithm is also in $P$, particularly of the form $O(log_2(n) \cdot PI(n))$, where $PI(n)$ is the (polynomial) time complexity of \texttt{PRIME-INTERVAL}.
+    
+    \item After \texttt{DFS-VISIT[}$v$\texttt{]} is completed, we will have the following conditions:
+    \begin{itemize}
+        \item All the vertices that are reachable from $v$ and $v$ itself will be black. At the beginning of the algorithm, $v$ is painted gray and then we call \texttt{DFS-VISIT} recursively on all the vertices that are white and adjacent to $v$. At the end of all the recursive calls, we start painting all the found vertices black. Since $v$ is at the top of the recursion, all the vertices that where gray at some point during the algorithm must be black at the end.
+        \item All the vertices that are not reachable from $v$ will be white. These vertices were never touched during the recursive calls to \texttt{DFS-VISIT}, and therefore remain white (as per the problem definition at the beginning we \emph{"assume all vertices of G have color white"}).
+        \item There will be no gray vertices. The only condition under which there can be gray vertices at the end of a call to \texttt{DFS-VISIT}, is when this call was made recursively from within another \texttt{DFS-VISIT}. In that case, all the vertices that had been painted gray in the outer \texttt{DFS-VISIT} will still be gray. However, we know that this is not the case when we call \texttt{DFS-VISIT[}$v$\texttt{]} because as per the problem definition at the beginning we \emph{"assume all vertices of G have color white"}. 
+    \end{itemize}
+    
+\end{enumerate}
+
+\end{document}

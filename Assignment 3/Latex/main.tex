@@ -1,0 +1,266 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{main}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{main}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[linguistics]{forest}
+\usepackage{adjustbox}
+\usepackage{bbm}
+%\usepackage[margin=0.5in]{geometry}
+%\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\ttfamily\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+ 
+\lstset{style=mystyle}
+
+\title{Fundamental Algorithms - Spring 2018\\
+       \Large Homework 3}
+%\graphicspath{{images/}}
+\setcitestyle{round, sort, numbers}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Daniel Rivera Ruiz\\
+  Department of Computer Science\\
+  New York University\\
+  \href{mailto:drr342@nyu.edu}{\texttt{drr342@nyu.edu}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+% \cite{} - in-line citation author, year in parenthesis.
+% \citep{} - all citation info in parenthesis.
+
+%	\begin{figure}[ht]
+%		\centering
+%		\frame{
+%            \includegraphics[width=1.0\linewidth]{tree.png}
+%       }
+%		\caption{Classification results for the sentence \textit{"There are slow and repetitive parts, but it has just enough spice to keep it                  interesting."} using the Stanford Sentiment Treebank. As can be seen, sentiment scores are available for each phrase.}
+%		\label{tree}
+%	\end{figure}
+
+\begin{enumerate}[1.]
+    
+    \item
+    \begin{multicols}{2}
+        \begin{align*}
+            2n^4 - 11n + 98 &= \Theta(n^4)\\
+            6n + 43n \text{lg}(n) &= \Theta(n \text{lg}(n))\\
+        \end{align*}
+        \begin{align*}
+            \\
+            63n^2 + 14n \text{lg}^5(n) &= \Theta(n^2)\\
+            3 + \frac{5}{n} &= \Theta(1)
+        \end{align*}
+    \end{multicols}
+
+    
+    \item The following table shows the steps of \texttt{RADIX-SORT}:
+    	\begin{table}[h!t]
+		\centering
+		\begin{tabular}{llll}
+			\toprule
+			Step 0 & Step 1 & Step 2 & Step 3\\
+			\midrule
+			COW & SE\textbf{A} & T\textbf{A}B & \textbf{B}AR \\
+			DOG & TE\textbf{A} & B\textbf{A}R & \textbf{B}IG \\
+			SEA & MO\textbf{B} & E\textbf{A}R & \textbf{B}OX \\
+			RUG & TA\textbf{B} & T\textbf{A}R & \textbf{C}OW \\
+			ROW & DO\textbf{G} & S\textbf{E}A & \textbf{D}IG \\
+			MOB & RU\textbf{G} & T\textbf{E}A & \textbf{D}OG \\
+			BOX & DI\textbf{G} & D\textbf{I}G & \textbf{E}AR \\
+			TAB & BI\textbf{G} & B\textbf{I}G & \textbf{F}OX \\
+			BAR & BA\textbf{R} & M\textbf{O}B & \textbf{M}OB \\
+			EAR & EA\textbf{R} & D\textbf{O}G & \textbf{N}OW \\
+			TAR & TA\textbf{R} & C\textbf{O}W & \textbf{R}OW \\
+			DIG & CO\textbf{W} & R\textbf{O}W & \textbf{R}UG \\
+			BIG & RO\textbf{W} & N\textbf{O}W & \textbf{S}EA \\
+			TEA & NO\textbf{W} & B\textbf{O}X & \textbf{T}AB \\
+			NOW & BO\textbf{X} & F\textbf{O}X & \textbf{T}AR \\
+			FOX & FO\textbf{X} & R\textbf{U}G & \textbf{T}EA \\
+			\bottomrule
+		\end{tabular}
+	    \end{table}
+	
+    \item The following table shows the steps of \texttt{BUCKET-SORT}:
+    	\begin{table}[h!t]
+		\centering
+		\begin{tabular}{llll}
+			\toprule
+			Array A & Array B (linked lists) & Array B (sorted lists) & Sorted array\\
+			\midrule
+			1: 0.79 & 0: $\emptyset$ & $\emptyset$ & 0.13 \\
+			2: 0.13 & 1: 0.13 $\rightarrow$ 0.16 $\rightarrow \emptyset$ & 0.13 $\rightarrow$ 0.16 $\rightarrow \emptyset$ & 0.16 \\
+			3: 0.16 & 2: 0.20 $\rightarrow \emptyset$ & 0.20 $\rightarrow \emptyset$ & 0.20 \\
+			4: 0.64 & 3: 0.39 $\rightarrow \emptyset$ & 0.39 $\rightarrow \emptyset$ & 0.39 \\
+			5: 0.39 & 4: 0.43 $\rightarrow \emptyset$ & 0.43 $\rightarrow \emptyset$ & 0.43 \\
+			6: 0.20 & 5: 0.53 $\rightarrow \emptyset$ & 0.53 $\rightarrow \emptyset$ & 0.53 \\
+			7: 0.89 & 6: 0.64 $\rightarrow \emptyset$ & 0.64 $\rightarrow \emptyset$ & 0.64 \\
+			8: 0.53 & 7: 0.79 $\rightarrow$ 0.71 $\rightarrow \emptyset$ & 0.71 $\rightarrow$ 0.79 $\rightarrow \emptyset$ & 0.71 \\
+			9: 0.71 & 8: 0.89 $\rightarrow \emptyset$ & 0.89 $\rightarrow \emptyset$ & 0.79 \\
+			10: 0.43 & 9: $\emptyset$ & $\emptyset$ & 0.89 \\
+			\bottomrule
+		\end{tabular}
+	    \end{table}
+	    
+	\item
+	    \begin{enumerate}[(a)]
+	        \item \texttt{COUNTING-SORT} takes time $O(\text{max}(N, K))$, where $N$ is the length of the array, and $K$ is the maximum value an element $A[I]$ can take. Therefore:
+	        \begin{align*}
+	            T(n) &= O(\text{max}(N, K)) \\
+	            T(n) &= O(\text{max}(N, N^N)) \\
+	            T(n) &= O(N^N) \\
+	        \end{align*}
+	        \item \texttt{RADIX-SORT} takes time $O(D\text{max}(N, K))$, where $N$ is the length of the array, and $K^D$ is the maximum value an element $A[I]$ can take. Therefore:
+	        \begin{align*}
+	            T(n) &= O(D\text{max}(N, K)) \\
+	            T(n) &= O(N\text{max}(N, N)) \\
+	            T(n) &= O(N^2) \\
+	        \end{align*}
+	        \item Finally, using \texttt{RADIX-SORT} with a different base:
+	        \begin{align*}
+	            T(n) &= O(D\text{max}(N, K)) \\
+	            T(n) &= O(\sqrt{N}\text{max}(N, N^{\sqrt{N}})) \\
+	            T(n) &= O(N^{\sqrt{N} + 0.5}) \\
+	        \end{align*}
+	    \end{enumerate}
+    \item The numbers in the sequence seem to coincide with the stops of the C, E, F, M trains, excepting for 13, which should actually be $14^{th}$ St. Under this assumption, the next number should be 59 for the C/E lines, 57 for the F, or 53 for the M.
+    
+    \item
+        \begin{enumerate}[(a)]
+	        \item There are two nested \texttt{for} loops, each running from 1 to $N$. Since there is only one operation to be performed (i.e. \texttt{x++}), each inner loop will take time $O(N)$, and there are $N$ such loops:
+	        \begin{align*}
+	            T(N) &= O(N) \cdot N \\
+	            T(N) &= O(N^2)
+	        \end{align*}
+	        \item There is only one operation inside the \texttt{while} loop, which duplicates the index $I$ each time. At the $K^{th}$ iteration, we will have $I = 2^K$, and therefore the algorithm will run as long as $2^K < N \rightarrow K < \text{lg}(N)$:
+	        \begin{equation*}
+	            T(N) = O(\text{lg}N)
+	        \end{equation*}
+	        \item The inner \texttt{while} loop will run as long as $J^2 < I$ and the value of $J$ will be increased by one inside of it. Under these conditions, let's use the following table to explore the number of times the inner loop will be executed as $I$ grows:
+	        \begin{table}[h!t]
+	            \centering
+	            \begin{tabular}{ccc}
+	            \toprule
+	            $I$ & $\max(J)$ such that $J^2 < I$ & Iterations in \texttt{while}\\
+	            \midrule
+	            1 & 0 & 0 \\
+	            4 & 1 & $1 \cdot (4 - 1)$ \\
+	            9 & 2 & $2 \cdot (9 - 4)$ \\
+	            16 & 3 & $3 \cdot (16 - 9)$ \\
+	            $\ldots$ & $\ldots$ & $\ldots$ \\
+	            \bottomrule
+	            \end{tabular}
+            \end{table}
+            
+             Looking at the table, it is clear that the total amount of operations will be the sum of all the iterations such that $I \leq N \rightarrow J^2 < N \rightarrow J < \sqrt{N}$:
+             \begin{equation*}
+                 1\cdot(2^2-1^2)+2\cdot(3^2-2^2)+3\cdot(4^2-3^2)+\ldots = \sum_{J=1}^{\sqrt{N}}\left((J-1)(J^2 - (J-1)^2)\right)
+             \end{equation*}
+             Simplifying the summation we get $\sum_{J=1}^{\sqrt{N}}\left(2J^2-3J+1\right)$. Since we will be using $O$ notation, the only term that we care about is the quadratic one. Considering that $\sum_{i=1}^n(i^2) = O(n^3)$, we can finally conclude:
+             \begin{align*}
+                 T(N) &= O\left(\sum_{J=1}^{\sqrt{N}}J^2\right)\\
+                 T(N) &= O\left(N^{\frac{3}{2}}\right)
+             \end{align*}
+             
+             \item At the $K^{th}$ iteration of the inner \texttt{while} loop, the condition $J = 2^K I < N$ must be met. Therefore, for each value of $I = 1 \ldots N$ there will be $K = \text{lg}\left(\frac{N}{I}\right)$ iterations. With this, we can calculate the total running time of the algorithm as follows:
+             \begin{align*}
+                 T(N) &= O\left(\sum_{I = 1}^N\text{lg}\left(\frac{N}{I}\right) = \sum_{I = 1}^N\left(\text{lg}N-\text{lg}I\right) = \sum_{I = 1}^N\text{lg}N - \sum_{I = 1}^N\text{lg}I\right)\\
+                 T(N) &= O\left(N\text{lg}N - \text{lg}\left(\prod_{I = 1}^N I\right)\right)\\
+                 T(N) &= O\left(N\text{lg}N - \text{lg}(N!)\right)\\
+             \end{align*}
+             From Stirling's formula we know that $\text{lg}(N!) \sim N\text{lg}N$, and therefore $T(N) = O(N \text{lg}N)$.
+        \end{enumerate}
+    \vspace{0.5cm}
+    \item 
+    \begin{enumerate}[(a)]
+        \item Professor Squander's selection for the number of buckets is not ideal. With $n^2$ buckets, the last step of \texttt{BUCKET-SORT} where all the linked lists are concatenated will take $O(n^2)$ time, since \emph{all} the lists must be visited once.
+        \item In the case of Ima, the concatenation step will actually be quite fast since there are only $\sqrt{n}$ buckets, but the problem will arise when sorting the elements in each one of the buckets. Considering that there are $n$ elements to sort in total, the expected value for the number of elements in each bucket will be $E = \sqrt{n}$, and we can use a Poisson distribution with $\lambda = \sqrt{n}$ to estimate the running time of the sorting process for all the buckets.\\
+        The expected number of buckets $N$ with $m$ elements in them is given by the following equation:
+        \begin{equation*}
+            N = \sqrt{n} \cdot \frac{(\sqrt{n})^m e^{-\sqrt{n}}}{m!} = \frac{(\sqrt{n})^{m+1} e^{-\sqrt{n}}}{m!}
+        \end{equation*}
+        
+        According to the problem definition, each one of these buckets will take $O(m^2)$ time to be sorted. To calculate the overall time of the algorithm, we add an $m^2$ factor to the previous equation and sum over all values of $m$\footnote{\textit{Wolfram Mathematica} was used to reduce the resulting summation.}:
+        \begin{align*}
+            T(n) &= O\left(\sum_{m = 0}^{\infty}\frac{(\sqrt{n})^{m+1} e^{-\sqrt{n}}m^2}{m!}\right)\\
+            T(n) &= O\left(n^{\frac{3}{2}} + n\right)\\
+            T(n) &= O\left(n^{\frac{3}{2}}\right)\\
+        \end{align*}
+        
+        Ima's selection of the number of buckets yields better results than that of the professor $(O(n^{\frac{3}{2}}) \text{ vs. } O(n^2))$, but still it is worse than the optimal value of $O(n)$ achieved when the number of buckets equals the number of elements to be sorted.
+        
+        \item The amount of space $S$ used by the algorithm is given by multiplying the number of buckets $N$ by the expected number of elements in each bucket $E$.\\
+        For the case with $n$ buckets we have:
+        \begin{equation*}
+            S = n \cdot 1 = n
+        \end{equation*}
+        And for the case with $\sqrt{n}$ buckets:
+        \begin{equation*}
+            S = \sqrt{n} \cdot \sqrt{n} = n
+        \end{equation*}
+        Therefore, the amount of space used by both algorithms will be roughly the same.
+    \end{enumerate}
+
+\end{enumerate}
+\end{document}

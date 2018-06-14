@@ -1,0 +1,312 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{main}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{main}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[linguistics]{forest}
+\usepackage{adjustbox}
+\usepackage{bbm}
+\usepackage{stmaryrd}
+%\usepackage[margin=0.5in]{geometry}
+%\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\ttfamily\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+ 
+\lstset{style=mystyle}
+
+\title{Fundamental Algorithms - Spring 2018\\
+       \Large Homework 5}
+%\graphicspath{{images/}}
+\setcitestyle{round, sort, numbers}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Daniel Rivera Ruiz\\
+  Department of Computer Science\\
+  New York University\\
+  \href{mailto:drr342@nyu.edu}{\texttt{drr342@nyu.edu}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+% \cite{} - in-line citation author, year in parenthesis.
+% \citep{} - all citation info in parenthesis.
+
+%	\begin{figure}[ht]
+%		\centering
+%		\frame{
+%            \includegraphics[width=1.0\linewidth]{tree.png}
+%       }
+%		\caption{Classification results for the sentence \textit{"There are slow and repetitive parts, but it has just enough spice to keep it                  interesting."} using the Stanford Sentiment Treebank. As can be seen, sentiment scores are available for each phrase.}
+%		\label{tree}
+%	\end{figure}
+
+\begin{enumerate}[1.]
+
+    \item
+    \begin{enumerate}[(a)]
+        \item For $k = n$, \texttt{MERGE-SORT} takes $T = \Theta(k\log_2(k))$. So with $k = n^2$ we have:
+        \begin{align*}
+            T &= \Theta(n^2\log_2(n^2))\\
+            T &= \Theta(2n^2\log_2(n)) \\
+            T &= \Theta(n^2\log_2(n))
+        \end{align*} 
+        \item From $n = 2^m$ it follows that $m = \log_2(n)$, and therefore the time for \texttt{ANNA} is given by
+        \begin{align*}
+            T &= \Theta(m^2 2^m)\\
+            T &= \Theta(n \log_2^2(n))
+        \end{align*}
+        \item From $n = 2^m$ it follows that $m = \log_2(n)$ and $5^m = 5^{\log_2(n)}$. Therefore, the time for \texttt{BOB} is given by
+        \begin{align*}
+            T &= \Theta(5^m)\\
+            T &= \Theta(5^{\log_2(n)})
+        \end{align*}
+        \item \texttt{COUNTING-SORT} takes $\Theta(\max(N, K))$ for $N$ elements in the range $[0, K]$. In this case we have (for all $n > 1$):
+        \begin{align*}
+            T &= \Theta(\max(n^2, n^3 -1))\\
+            T &= \Theta(n^3 -1) \\
+            T &= \Theta(n^3)
+        \end{align*}
+        \item \texttt{RADIX-SORT} takes $\Theta(D\max(N, K))$ for $N$ elements in the range $[0, K^D]$. In this case we have $N = n^2$, $K = n$ and $K^D = n^3 - 1$. In the asymptotic analysis, $n^3 - 1 \approx n^3$ and therefore $K^D \approx n^3$. Finally it follows that $D = 3$ and we have:
+        \begin{align*}
+            T &= \Theta(D\max(N, K))\\
+            T &= \Theta(3\max(n^2, n)) \\
+            T &= \Theta(3n^2)
+        \end{align*}
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}[(a)]
+        \item \texttt{insert}(COBB) \\
+        $h(\text{COBB}) = (3 + 15 + 2 + 2) \mod 7 = 22 \mod 7 = 1$
+        \item \texttt{insert}(RUTH) \\
+        $h(\text{RUTH}) = (18 + 21 + 20 + 8) \mod 7 = 67 \mod 7 = 4$
+        \item \texttt{insert}(ROSE) \\
+        $h(\text{ROSE}) = (18 + 15 + 19 + 5) \mod 7 = 57 \mod 7 = 1$
+        \item \texttt{search}(BUZ) \\
+        $h(\text{BUZ}) = (2 + 21 + 26) \mod 7 = 49 \mod 7 = 0$
+        \newpage
+        \item \texttt{insert}(DOC) \\
+        $h(\text{DOC}) = (4 + 15 + 3) \mod 7 = 22 \mod 7 = 1$
+        \item \texttt{delete}(COBB) \\
+        $h(\text{COBB}) = (3 + 15 + 2 + 2) \mod 7 = 22 \mod 7 = 1$
+    	\begin{table}[ht]
+    		\centering
+    		{\small
+    		\begin{tabular}{|c|c}
+    			\toprule
+    			$h$ & $T_a$ \\
+    			\midrule
+    			0 & $\emptyset$ \\
+    			1 & COBB \\
+    			2 & $\emptyset$ \\
+    			3 & $\emptyset$ \\
+    			4 & $\emptyset$ \\
+    			5 & $\emptyset$ \\
+    			6 & $\emptyset$ \\
+    			\bottomrule
+    		\end{tabular}
+    		\begin{tabular}{|c}
+    			\toprule
+    			$T_b$ \\
+    			\midrule
+    			$\emptyset$ \\
+    			COBB \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			RUTH \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			\bottomrule
+    		\end{tabular}
+    		\begin{tabular}{|c}
+    			\toprule
+    			$T_c$ \\
+    			\midrule
+    			$\emptyset$ \\
+    			COBB\textunderscore ROSE \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			RUTH \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			\bottomrule
+    		\end{tabular}
+    		\begin{tabular}{|c}
+    			\toprule
+    			$T_d$ \\
+    			\midrule
+    			$\emptyset$ (searched) \\
+    			COBB\textunderscore ROSE \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			RUTH \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			\bottomrule
+    		\end{tabular}
+    		\begin{tabular}{|c}
+    			\toprule
+    			$T_e$ \\
+    			\midrule
+    			$\emptyset$ \\
+    			COBB\textunderscore ROSE\textunderscore DOC\\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			RUTH \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			\bottomrule
+    		\end{tabular}
+    		\begin{tabular}{|c|}
+    			\toprule
+    			$T_f$ \\
+    			\midrule
+    			$\emptyset$ \\
+    			ROSE\textunderscore DOC\\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			RUTH \\
+    			$\emptyset$ \\
+    			$\emptyset$ \\
+    			\bottomrule
+    		\end{tabular}
+    		}
+    	\end{table}
+    \end{enumerate}
+    
+    \item Picture of the tree:
+	\begin{center}
+      \begin{forest}
+        [\text{$a(80)$}
+            [\text{$h(70)$}]
+            [\text{$d(200)$}
+                [\text{$e(150)$}
+                    [\text{$c(140)$}
+                        [\textit{NIL}]
+                        [\text{$g(148)$}
+                            [\text{$f(143)$}]
+                            [\textit{NIL}]]]
+                    [\text{$b(170)$}]]
+                [\textit{NIL}]]]
+      \end{forest}
+    \end{center}
+    The operation \texttt{INSERT[i]} where \texttt{key[i]=100} will traverse the tree starting at the root, comparing the key of the value to insert with the key of the node until it finds a free spot (\textit{NIL}) in the tree. (If the key to insert is less than the key of the node, the algorithm continues to the left child and it continues to the right child otherwise):
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{ccccc}
+			\toprule
+			Step & $x$ & $k(x)$ & $p$ & $k(i) < k(x)$ \\
+			\midrule
+			0 & $a$ & 80 & \textit{NIL} & false \\
+			1 & $d$ & 200 & $a$ & true \\
+			2 & $e$ & 150 & $d$ & true \\
+			3 & $c$ & 140 & $e$ & true \\
+			4 & \textit{NIL} & \textit{NIL} & $c$ & finish \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+    As we can see from the table, $i$ should be inserted as the left child of $c$, resulting in the following updated tree:
+	\begin{center}
+      \begin{forest}
+        [\text{$a(80)$}
+            [\text{$h(70)$}]
+            [\text{$d(200)$}
+                [\text{$e(150)$}
+                    [\text{$c(140)$}
+                        [\text{$i(100)$}]
+                        [\text{$g(148)$}
+                            [\text{$f(143)$}]
+                            [\textit{NIL}]]]
+                    [\text{$b(170)$}]]
+                [\textit{NIL}]]]
+      \end{forest}
+    \end{center}
+    
+    \item 
+    \begin{enumerate}[(a)]
+        \item The output of \texttt{FANG[A]} will be $x + 1$. What the function does is add one to the LSB of $A$ (\texttt{A[0]++}) and then deal with the possibility of a carry bit in the \texttt{while} loop: if there is carry (\texttt{A[i] = 2}) the bit is set to zero and the next element of the array is incremented by one. This process continues until there is nothing to carry or until the last element of the array is reached.
+        \item The worst-case time for \texttt{FANG} is when the \texttt{while} loop is executed the maximum number of times i.e., when the whole array needs to be traversed. For this to happen, all the elements of $A$ must be 1 so there will always be a carry bit. Under these circumstances, the \texttt{while} instruction will be reached $K$ times, and since $N = 2^K$, the worst-case time complexity for \texttt{FANG} will be $\Theta(\log_2(N))$.\\
+        The best-case time for \texttt{FANG} occurs when \texttt{A[0] = 0} (regardless of the other values in A) because no carry will be generated and the code inside the \texttt{while} loop will never execute. Under these circumstances, the time complexity is clearly $\Theta(1)$.
+        \item What \texttt{VIKAS} does is execute \texttt{FANG} $N-1$ times starting with $A = [0,\ldots,0] (x = 0)$. This means that after the \texttt{for} loop executes once, we will have $A = [1,0,\ldots,0] (x = 1)$, then $A = [0,1,0,\ldots,0] (x = 2)$ for the second execution and so on until we finally get $A = [1,\ldots,1] (x = N - 1)$. The final value of A will have, clearly, $K$ 1's.
+        \item To calculate the time complexity of \texttt{VIKAS}, we will simply think of $A$ as the binary representation of $x$ and notice the following:
+            \begin{itemize}
+                \item For all $A$ such that $\text{LSB}(A) = 1$ the \texttt{while} loop in \texttt{FANG} will execute once. This will be true for half of the values $A$ takes while executing \texttt{VIKAS} i.e., $\frac{N-1}{2}$.
+                \item If the following bit in $A$ is also 1, there will be an additional execution of the \texttt{while} loop. This will happen for half of the numbers in the previous count, or what it's the same, one fourth of all the possible values of $A$, which is $\frac{N-1}{4}$.
+                \item Following this train of thought, we will be executing additional \texttt{while} loops in an ever decreasing amount of numbers as we enforce the stronger condition that more bits equal 1.
+            \end{itemize}
+        With this observations, it is clear that the time complexity of \texttt{VIKAS} can be expressed as follows:
+        \begin{equation*}
+            T = \frac{N-1}{2} + \frac{N-1}{4} + \ldots + \frac{N-1}{2^K} = \sum_{i = 1}^K\left(\frac{N-1}{2^i}\right)
+        \end{equation*}
+        To simplify the calculation we will consider the infinite summation. Since we are doing asymptotic analysis, adding these smaller terms will not affect the result: 
+        \begin{align*}
+            T &= \Theta\left(\sum_{i = 1}^{\infty} \frac{N-1}{2^i}\right)\\
+            T &= \Theta\left((N-1)\sum_{i = 1}^{\infty} \frac{1}{2^i}\right)\\
+            T &= \Theta(N-1)\\
+            T &= \Theta(N)\\
+        \end{align*}
+    \end{enumerate}
+
+\end{enumerate}
+\end{document}
